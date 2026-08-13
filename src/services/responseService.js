@@ -30,11 +30,17 @@ export const saveResponse = async (payload) => {
     message: payload.message?.trim() || '',
   }
 
+  console.log('🔥 Saving response:', response)
+  console.log('🔥 Firebase configured:', isFirebaseConfigured)
+
   if (isFirebaseConfigured) {
+    console.log('🔥 Using Firebase to save...')
     const docRef = await addDoc(collection(db, COLLECTION), {
       ...response,
       createdAt: serverTimestamp(),
     })
+
+    console.log('✅ Saved to Firebase with ID:', docRef.id)
 
     return {
       id: docRef.id,
@@ -44,6 +50,7 @@ export const saveResponse = async (payload) => {
     }
   }
 
+  console.log('⚠️ Using localStorage (Firebase not configured)')
   const saved = {
     id: crypto.randomUUID(),
     ...response,
@@ -103,8 +110,11 @@ export const getResponses = async () => {
  * @returns {Function} Unsubscribe function để dừng lắng nghe
  */
 export const subscribeToResponses = (onUpdate, onError) => {
+  console.log('🔥 Setting up real-time listener...')
+  console.log('🔥 Firebase configured:', isFirebaseConfigured)
+
   if (!isFirebaseConfigured) {
-    // Nếu không có Firebase, trả về responses từ localStorage và hàm unsubscribe rỗng
+    console.log('⚠️ Firebase not configured, using localStorage')
     onUpdate(readLocalResponses())
     return () => {}
   }
@@ -115,9 +125,12 @@ export const subscribeToResponses = (onUpdate, onError) => {
     limit(50),
   )
 
+  console.log('🔥 Starting Firestore onSnapshot listener...')
+
   const unsubscribe = onSnapshot(
     responseQuery,
     (snapshot) => {
+      console.log('🔥 Received snapshot with', snapshot.docs.length, 'documents')
       const responses = snapshot.docs.map((doc) => {
         const data = doc.data()
         return {
@@ -127,10 +140,11 @@ export const subscribeToResponses = (onUpdate, onError) => {
           storage: 'firebase',
         }
       })
+      console.log('✅ Updated responses:', responses)
       onUpdate(responses)
     },
     (error) => {
-      console.error('Real-time listener error:', error)
+      console.error('❌ Real-time listener error:', error)
       onError?.(error)
     },
   )

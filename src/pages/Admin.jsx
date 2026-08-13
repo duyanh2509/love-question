@@ -30,24 +30,27 @@ function Admin() {
   useEffect(() => {
     if (!isUnlocked) return
 
+    console.log('🔥 Admin: Setting up real-time listener')
     setIsLoading(true)
     setError('')
 
     // Đăng ký lắng nghe real-time updates từ Firestore
     const unsubscribe = subscribeToResponses(
       (newResponses) => {
+        console.log('🔥 Admin: Received', newResponses.length, 'responses')
         setResponses(newResponses)
         setIsLoading(false)
       },
       (loadError) => {
+        console.error('❌ Admin: Error loading responses', loadError)
         setError(getFirebaseSetupErrorMessage(loadError))
-        console.error(loadError)
         setIsLoading(false)
       },
     )
 
     // Cleanup: Hủy đăng ký khi component unmount
     return () => {
+      console.log('🔥 Admin: Cleaning up listener')
       unsubscribe()
     }
   }, [isUnlocked])
