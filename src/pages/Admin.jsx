@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Loading from '../components/Loading.jsx'
-import { getFirebaseSetupErrorMessage, getResponses } from '../services/responseService.js'
+import {
+  getFirebaseSetupErrorMessage,
+  subscribeToResponses,
+} from '../services/responseService.js'
 
 const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || 'yeuem'
 
@@ -27,21 +30,26 @@ function Admin() {
   useEffect(() => {
     if (!isUnlocked) return
 
-    const loadResponses = async () => {
-      setIsLoading(true)
-      setError('')
+    setIsLoading(true)
+    setError('')
 
-      try {
-        setResponses(await getResponses())
-      } catch (loadError) {
+    // Đăng ký lắng nghe real-time updates từ Firestore
+    const unsubscribe = subscribeToResponses(
+      (newResponses) => {
+        setResponses(newResponses)
+        setIsLoading(false)
+      },
+      (loadError) => {
         setError(getFirebaseSetupErrorMessage(loadError))
         console.error(loadError)
-      } finally {
         setIsLoading(false)
-      }
-    }
+      },
+    )
 
-    loadResponses()
+    // Cleanup: Hủy đăng ký khi component unmount
+    return () => {
+      unsubscribe()
+    }
   }, [isUnlocked])
 
   const handleLogin = (event) => {
