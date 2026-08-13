@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const DUY_PASSCODE = import.meta.env.VITE_DUY_PASSCODE || 'yeuhachi2212'
+const DUY_PASSCODE = 'yeuhachi2212'
 
 function IdentityGate() {
   const navigate = useNavigate()

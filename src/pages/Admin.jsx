@@ -6,7 +6,7 @@ import {
   subscribeToResponses,
 } from '../services/responseService.js'
 
-const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || 'yeuem'
+const ADMIN_PASSCODE = 'yeuem'
 
 const formatDate = (value) => {
   if (!value) return 'Chưa có thời gian'
