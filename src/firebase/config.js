@@ -12,5 +12,22 @@ const firebaseConfig = {
 
 export const isFirebaseConfigured = Object.values(firebaseConfig).every(Boolean)
 
-export const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : null
-export const db = app ? getFirestore(app) : null
+let app = null
+let db = null
+
+if (isFirebaseConfigured) {
+  try {
+    app = initializeApp(firebaseConfig)
+    // Sử dụng (default) database
+    db = getFirestore(app, '(default)')
+    console.log('✅ Firebase initialized successfully')
+    console.log('📦 Project ID:', firebaseConfig.projectId)
+    console.log('🔥 Firestore instance:', db ? 'Connected' : 'Failed')
+  } catch (error) {
+    console.error('❌ Firebase initialization error:', error)
+    app = null
+    db = null
+  }
+}
+
+export { app, db }
