@@ -1,4 +1,4 @@
-# Love Question - Website tương tác với Real-time Sync ❤️
+![alt text](image.png)# Love Question - Website tương tác với Real-time Sync ❤️
 
 Website React + Vite với tính năng đồng bộ thời gian thực giữa admin và người dùng, không cần backend server!
 
@@ -42,29 +42,22 @@ Xem chi tiết: [REALTIME_SYNC.md](./REALTIME_SYNC.md)
 
 - Node.js 18+
 - npm hoặc yarn
-- Firebase project (xem [FIREBASE_SETUP.md](./FIREBASE_SETUP.md))
 
 ### Installation
 
 ```bash
 # Clone repo
-git clone <your-repo-url>
+git clone https://github.com/duyanh2509/love-question.git
 cd love-question
 
 # Install dependencies
 npm install
 
-# Copy environment variables
-cp .env.example .env
-
-# Thêm Firebase config vào .env
-# VITE_FIREBASE_API_KEY=...
-# VITE_FIREBASE_AUTH_DOMAIN=...
-# (xem .env.example)
-
 # Start dev server
 npm run dev
 ```
+
+**Lưu ý:** Firebase config đã được cấu hình sẵn trong code.
 
 ### Available Scripts
 
@@ -77,14 +70,13 @@ npm run lint     # Run ESLint
 
 ## 🌐 Deploy lên Vercel
 
-Xem hướng dẫn chi tiết: [DEPLOY_VERCEL.md](./DEPLOY_VERCEL.md)
-
 ### Quick Deploy
 
 1. Push code lên GitHub
 2. Import vào Vercel
-3. Thêm Environment Variables (Firebase config)
-4. Deploy! 🎉
+3. Deploy! 🎉
+
+**Không cần** cấu hình Environment Variables - Firebase đã được cấu hình sẵn trong code.
 
 ```bash
 git add .
@@ -145,9 +137,11 @@ service cloud.firestore {
 
 ### Đổi mật khẩu admin
 
-Thêm vào `.env`:
-```
-VITE_ADMIN_PASSCODE=password-moi-cua-ban
+Mặc định: `yeuem`
+
+Để đổi, sửa trong file `src/pages/Admin.jsx`:
+```javascript
+const ADMIN_PASSCODE = 'password-moi-cua-ban'
 ```
 
 ### Đổi số lượng responses hiển thị
@@ -161,16 +155,15 @@ limit(50) // Đổi 50 thành số khác
 
 ### Real-time sync không hoạt động
 
-1. Kiểm tra Firebase config trong `.env`
-2. Kiểm tra Firestore Rules
-3. Mở Console để xem lỗi
-4. Đảm bảo đã tạo Firestore database
+1. Kiểm tra Firestore Rules trong Firebase Console
+2. Mở Console (F12) để xem lỗi
+3. Đảm bảo đã tạo Firestore database
 
 ### Admin page không hiện responses
 
-1. Kiểm tra mật khẩu admin
-2. Kiểm tra Firebase connection
-3. Xem Console log
+1. Kiểm tra mật khẩu admin (mặc định: `yeuem`)
+2. Kiểm tra Firebase connection trong Console log
+3. Xem Firebase Console > Firestore > Data
 
 ## 📄 License
 
