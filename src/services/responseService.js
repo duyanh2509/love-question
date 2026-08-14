@@ -24,10 +24,8 @@ const writeLocalResponses = (responses) => {
 
 export const saveResponse = async (payload) => {
   const response = {
-    accepted: true,
-    activities: payload.activities,
-    food: payload.food,
-    message: payload.message?.trim() || '',
+    ...payload,
+    createdAt: new Date().toISOString(),
   }
 
   console.log('🔥 Saving response:', response)
@@ -36,7 +34,7 @@ export const saveResponse = async (payload) => {
   if (isFirebaseConfigured) {
     console.log('🔥 Using Firebase to save...')
     const docRef = await addDoc(collection(db, COLLECTION), {
-      ...response,
+      ...payload,
       createdAt: serverTimestamp(),
     })
 
@@ -45,7 +43,6 @@ export const saveResponse = async (payload) => {
     return {
       id: docRef.id,
       ...response,
-      createdAt: new Date().toISOString(),
       storage: 'firebase',
     }
   }
@@ -54,7 +51,6 @@ export const saveResponse = async (payload) => {
   const saved = {
     id: crypto.randomUUID(),
     ...response,
-    createdAt: new Date().toISOString(),
     storage: 'local',
   }
 
