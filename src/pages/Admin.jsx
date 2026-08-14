@@ -112,11 +112,22 @@ function Admin() {
                 <span>{formatDate(response.createdAt)}</span>
               </div>
               <p>
-                <strong>Hết giận:</strong> Có ❤
+                <strong>Câu hỏi 1:</strong> {response.question1 || 'Em có đồng ý hết giận không?'}
               </p>
               <p>
-                <strong>Chủ nhật ăn:</strong> {response.food || 'Chưa chọn'}
+                <strong>Trả lời:</strong> {response.answer1 || 'Có'}
               </p>
+              <p>
+                <strong>Câu hỏi 2:</strong> {response.question2 || 'Chủ nhật muốn ăn gì?'}
+              </p>
+              <p>
+                <strong>Trả lời:</strong> {response.answer2 || (response.food ? `Có - ${response.food}` : 'Không')}
+              </p>
+              {response.reason ? (
+                <p>
+                  <strong>Lý do:</strong> "{response.reason}"
+                </p>
+              ) : null}
               {response.message ? (
                 <p>
                   <strong>Lời nhắn:</strong> “{response.message}”

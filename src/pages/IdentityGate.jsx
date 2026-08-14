@@ -11,7 +11,7 @@ function IdentityGate() {
 
   const chooseChi = () => {
     setError('')
-    navigate('/question')
+    navigate('/home')
   }
 
   const chooseDuy = () => {
