@@ -42,7 +42,6 @@ function Home() {
         </div>
         <p className="eyebrow">Có người đang chờ câu trả lời</p>
         <h1>Em còn giận anh không?</h1>
-        <p className="lead">Trả lời thật lòng nha em...</p>
 
         <div style={{ position: 'relative', height: '200px', marginTop: '40px' }}>
           {/* Nút Có - nhảy liên tục */}

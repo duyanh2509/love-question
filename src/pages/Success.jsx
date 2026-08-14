@@ -10,8 +10,8 @@ function Success() {
         <div className="success-heart" aria-hidden="true">
           ❤
         </div>
-        <p className="eyebrow">Đã lưu rồi</p>
-        <h1>Hẹn Chủ Nhật nhé ❤</h1>
+        <p className="eyebrow">Đã xong</p>
+        <h1>Xin chân thành cảm ơn ❤</h1>
 
         {response ? (
           <div className="summary-list">
