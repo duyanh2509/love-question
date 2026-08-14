@@ -6,7 +6,7 @@ import {
   subscribeToResponses,
 } from '../services/responseService.js'
 
-const ADMIN_PASSCODE = 'yeuem'
+const ADMIN_PASSCODE = 'biboda123'
 
 const formatDate = (value) => {
   if (!value) return 'Chưa có thời gian'
